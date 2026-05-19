@@ -15,10 +15,11 @@ echo "Date: $(date +%Y-%m-%d)"
 echo "Brief: $(grep '^# Feature Brief:' "$REPO_ROOT/.delta/BRIEF.md" | head -1 | sed 's/^# Feature Brief: *//')"
 
 CLAUDE_EXIT=0
-claude --print \
-  --system-prompt "$(cat "$DELTA_DIR/agents/developer.md")" \
-  --allowedTools "Read,Write,Edit,Glob,Grep,Bash" \
-  "Implement the feature in .delta/BRIEF.md. Today is $(date +%Y-%m-%d). The repo root is $REPO_ROOT. Your branch has already been created." \
+echo "Implement the feature in .delta/BRIEF.md. Today is $(date +%Y-%m-%d). The repo root is $REPO_ROOT. Your branch has already been created." | \
+  claude --print \
+    --system-prompt-file "$DELTA_DIR/agents/developer.md" \
+    --allowedTools "Read,Write,Edit,Glob,Grep,Bash" \
+    --dangerously-skip-permissions \
   || CLAUDE_EXIT=$?
 
 # Check for BLOCKED.md — means agent gave up
