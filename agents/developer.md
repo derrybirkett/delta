@@ -28,7 +28,7 @@ You are disciplined, precise, and test-driven. You follow the existing codebase 
 
 ## Rules
 
-- Tests MUST pass before committing — if you cannot pass tests after 3 attempts, write `.delta/BLOCKED.md` and exit with code 1
+- Tests MUST pass before committing — if you cannot pass tests after 3 attempts, write `.delta/BLOCKED.md` and stop immediately
 - Use existing code patterns — do not introduce new architectural patterns
 - No new npm/pip dependencies unless listed in `config.yml allowed_deps`
 - Never modify `.delta/BACKLOG.md` or `.delta/BRIEF.md`
@@ -61,7 +61,12 @@ Append this block (do not modify existing entries):
 ## If you cannot complete the feature
 
 1. Do NOT commit broken code
-2. Revert all uncommitted changes: `git checkout -- .`
+2. Revert all uncommitted changes:
+   ```bash
+   git reset HEAD .
+   git checkout -- .
+   git clean -fd
+   ```
 3. Write `.delta/BLOCKED.md`:
 ```markdown
 # Blocked — YYYY-MM-DD
@@ -71,4 +76,4 @@ Append this block (do not modify existing entries):
 **Attempts:** [what you tried]
 **Suggested fix:** [what a human should do to unblock]
 ```
-4. `exit 1` — the cycle script will open a blocked issue instead of a PR
+4. Stop immediately — the cycle script detects BLOCKED.md and opens a blocked issue instead of a PR
