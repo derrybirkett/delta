@@ -1,3 +1,16 @@
+## 2026-05-19 (2) | Session Wrap-Up
+
+**Version:** v0.2.0
+**Commits:**
+- feat: add GitHub Pages docs site
+- chore: opt into Node.js 24 for pages workflow actions
+
+Added a GitHub Pages homepage at https://derrybirkett.github.io/delta/ — plain HTML/CSS, no build step, deployed via `gh-pages` branch so it never appears in submodule checkouts. Also added CLAUDE.md for repo context. Set up via `peaceiris/actions-gh-pages@v4` with Node.js 24 opt-in to clear deprecation warnings.
+
+> `gh-pages` branch is invisible to submodule consumers — only files on the checked-out commit of `main` land in their repo. This makes it the right choice for any docs/tooling overhead you want to keep out of the submodule footprint. Configure Pages via `gh api --method POST /repos/{owner}/{repo}/pages --field 'source[branch]=gh-pages'` after the branch is first created by the workflow.
+
+---
+
 ## 2026-05-19 | Session Wrap-Up
 
 **Version:** v0.1.0

@@ -1,3 +1,14 @@
+## Handover — 2026-05-19 (2)
+
+**From this session:**
+Added GitHub Pages docs site (v0.2.0) — live at https://derrybirkett.github.io/delta/ via `gh-pages` branch, plain HTML/CSS, auto-deployed on push to main.
+
+**Next steps:**
+- [ ] Verify the live site at https://derrybirkett.github.io/delta/ once Pages finishes building
+- [ ] Update `README.md` to link to the docs site
+
+---
+
 ## Handover — 2026-05-19
 
 **From this session:**
