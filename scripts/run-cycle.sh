@@ -38,6 +38,15 @@ FEATURE_SLUG=$(grep "^# Feature Brief:" .delta/BRIEF.md \
   | sed 's/^-//;s/-$//')
 BRANCH="delta/${FEATURE_SLUG}-${TODAY}"
 
+# Skip if a PR for this feature title is already open (catches re-picks of the same backlog item)
+FEATURE_TITLE=$(grep "^# Feature Brief:" .delta/BRIEF.md | head -1 | sed 's/^# Feature Brief: *//')
+EXISTING_PR=$(gh pr list --state open --search "\"$FEATURE_TITLE\" in:title" --json number \
+  --jq '.[0].number // empty')
+if [[ -n "$EXISTING_PR" ]]; then
+  echo "Skipping cycle — PR #$EXISTING_PR already open for: $FEATURE_TITLE"
+  exit 0
+fi
+
 echo "Creating branch: $BRANCH"
 git checkout -b "$BRANCH"
 
