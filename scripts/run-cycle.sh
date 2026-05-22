@@ -12,6 +12,14 @@ echo "=============================="
 git checkout main
 git pull origin main
 
+# Skip cycle if a delta PR is already open and waiting to merge
+open_delta_prs=$(gh pr list --state open --json headRefName \
+  --jq '[.[] | select(.headRefName | startswith("delta/"))] | length')
+if (( open_delta_prs > 0 )); then
+  echo "Skipping cycle — ${open_delta_prs} open delta PR(s) still pending merge."
+  exit 0
+fi
+
 # Run product agent — writes BRIEF.md and updates BACKLOG.md
 "$SCRIPT_DIR/run-product.sh"
 
